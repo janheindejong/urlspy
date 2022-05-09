@@ -1,11 +1,10 @@
 """Hello, world"""
 
-from fastapi import FastAPI
-
-from . import models, schemas, database, crud
+from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 
-from fastapi import Depends
+from . import models, schemas, database, crud
+
 
 app = FastAPI()
 
