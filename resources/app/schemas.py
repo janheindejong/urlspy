@@ -3,7 +3,7 @@ from pydantic import AnyHttpUrl, BaseModel
 
 class ResourceBase(BaseModel):
 
-    path: AnyHttpUrl
+    url: AnyHttpUrl
 
 
 class Resource(ResourceBase):

@@ -11,7 +11,7 @@ Base: Any = declarative_base()
 
 
 class Resource(Base):
-    __tablename__ = "resources"
+    __tablename__ = "resource"
 
     id = Column(Integer, primary_key=True)
-    path = Column(String)
+    url = Column(String)
