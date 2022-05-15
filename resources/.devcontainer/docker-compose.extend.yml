@@ -5,8 +5,6 @@ services:
     build:
       context: resources
       dockerfile: .devcontainer/Dockerfile
-      args:
-        VARIANT: 3-bullseye
 
     # Set environment variables
     environment: 

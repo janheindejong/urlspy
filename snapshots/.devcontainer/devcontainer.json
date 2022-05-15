@@ -2,10 +2,13 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.234.0/containers/python-3-postgres
 // Update the VARIANT arg in docker-compose.yml to pick a Python version
 {
-	"name": "Python 3 & PostgreSQL",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
-	"workspaceFolder": "/workspace",
+	"name": "Snapshots container environment",
+	"dockerComposeFile": [
+		"../../docker-compose.yml",
+		"docker-compose.extend.yml"
+	],
+	"service": "snapshots",
+	"workspaceFolder": "/workspace/snapshots",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
