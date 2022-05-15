@@ -1,9 +1,11 @@
 version: "3"
 services:
-  app:
+  resources:
     build: 
       context: resources
       dockerfile: Dockerfile
+    ports: 
+      - "8080:8080"
 
   db:
     image: postgres:latest
