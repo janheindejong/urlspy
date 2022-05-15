@@ -28,7 +28,7 @@ services:
 
   # SNAPSHOTS STACK
   mongo:
-    image: mongo
+    image: mongo:4  # The CPU of my MacBook does not support newer version
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongodb
