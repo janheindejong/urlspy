@@ -5,7 +5,7 @@ description = "API for managing resources DB of URL stalker app"
 authors = ["Jan Hein de Jong <janhein.dejong@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 fastapi = "^0.76.0"
 SQLAlchemy = "^1.4.36"
 uvicorn = "^0.17.6"

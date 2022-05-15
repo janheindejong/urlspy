@@ -3,7 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DB_URL = "postgresql://postgres:postgres@localhost:5432"
+DB_URL = "postgresql://postgres:postgres@db:5432"
 
 engine = create_engine(DB_URL)
 
