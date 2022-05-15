@@ -13,6 +13,9 @@ services:
         # Optional Node.js version to install
         NODE_VERSION: "none"
 
+    environment: 
+      RUN_MIGRATION: 0
+
     volumes:
       - .:/workspace:cached
 
@@ -20,7 +23,7 @@ services:
     command: sleep infinity
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
+    # network_mode: service:db
     # Uncomment the next line to use a non-root user for all processes.
     # user: vscode
 
