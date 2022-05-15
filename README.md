@@ -8,6 +8,8 @@ App to scrape URLs at regular interval
 * Snapshots: API for NoSQL DB with snapshots of URLs 
 * Scraper: Go application for scraping the URLs 
 
+![Architecture](docs/architecture.svg)
+
 ## Development 
 
 The development environments of the three apps are completely separate and decoupled. The idea is that you can optimize your development environment to the app at hand. 
