@@ -8,6 +8,7 @@ authors = ["Jan Hein de Jong <janhein.dejong@gmail.com>"]
 python = "^3.9"
 fastapi = "^0.78.0"
 motor = "^3.0.0"
+uvicorn = "^0.17.6"
 
 [tool.poetry.dev-dependencies]
 
