@@ -12,6 +12,10 @@ uvicorn = "^0.17.6"
 
 [tool.poetry.dev-dependencies]
 
+[tool.pylint.master]
+extension-pkg-whitelist="pydantic"
+disable="missing-docstring"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
