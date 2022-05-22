@@ -11,7 +11,7 @@
             "module": "uvicorn",
             "justMyCode": true, 
             "args": 
-                ["app.main:app", "--host", "0.0.0.0", "--port", "9090"]
+                ["app.main:app", "--host", "0.0.0.0", "--port", "9090", "--reload"]
         }
     ]
 }
