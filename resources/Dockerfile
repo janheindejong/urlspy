@@ -22,10 +22,10 @@ COPY . .
 RUN chmod a+x entry-point.sh
 
 # Expose application
-EXPOSE 8080
+EXPOSE 80
 
 # Set entry-point; this script handles the database migration
 ENTRYPOINT ["./entry-point.sh"]
 
 # Run app
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

@@ -9,7 +9,7 @@ services:
     environment:
       RUN_MIGRATION: 1
     ports: 
-      - "8080:8080"
+      - "8080:80"
     depends_on:
       - resources_db
 
@@ -43,6 +43,15 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: mongodb
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongodb
       ME_CONFIG_MONGODB_URL: mongodb://mongodb:mongodb@mongo:27017/
+
+  snapshots:
+    build: 
+      context: snapshots
+      dockerfile: Dockerfile
+    ports: 
+      - "9090:80"
+    depends_on:
+      - mongo
 
 volumes:
   postgres-data: null
