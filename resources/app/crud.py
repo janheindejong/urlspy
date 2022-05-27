@@ -8,9 +8,7 @@ class ResourceNotFound(Exception):
 
 
 def get_resources(db: Session) -> list[models.Resource]:
-    return (
-        db.query(models.Resource).all()
-    )
+    return db.query(models.Resource).all()
 
 
 def create_new_resource(db: Session, obj_in: schemas.ResourceBase) -> models.Resource:
