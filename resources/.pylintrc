@@ -1,4 +1,0 @@
-[MASTER]
-extension-pkg-whitelist=pydantic,alembic
-disable=missing-docstring
-ignored-modules=six.moves,_MovedItems,alembic.op
