@@ -11,9 +11,12 @@ services:
     ports: 
       - "8080:80"
     depends_on:
-      - resources_db
+      - postgres
+    networks:
+      - default
+      - resources
 
-  resources_db:
+  postgres:
     image: postgres:latest
     restart: unless-stopped
     volumes:
@@ -22,8 +25,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
-    ports: 
-      - "5432:5432"
+    networks:
+      - resources
 
 
   # SNAPSHOTS STACK
@@ -33,6 +36,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongodb
       MONGO_INITDB_ROOT_PASSWORD: mongodb
+    networks:
+      - snapshots
 
   mongo-express:
     image: mongo-express
@@ -43,6 +48,9 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: mongodb
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongodb
       ME_CONFIG_MONGODB_URL: mongodb://mongodb:mongodb@mongo:27017/
+    networks:
+      - snapshots 
+      - default
 
   snapshots:
     build: 
@@ -52,6 +60,13 @@ services:
       - "9090:80"
     depends_on:
       - mongo
+    networks:
+      - snapshots 
+      - default
 
 volumes:
   postgres-data: null
+
+networks:
+  resources:
+  snapshots:
