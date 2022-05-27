@@ -59,14 +59,6 @@ func SnapAndSave(wg *sync.WaitGroup, resource *Resource, snapShotApiService *Sna
 	log.Printf(`Successfully stored snapshot of resource with URL "%s"`, resource.Url)
 }
 
-func getEnvWithDefault(key string, defaultValue string) string {
-	value := os.Getenv(key)
-	if value == "" {
-		value = defaultValue
-	}
-	return value
-}
-
 type Config struct {
 	ResourceApi  string
 	SnapShotApi  string
@@ -81,4 +73,12 @@ func LoadConfigFromEnv() *Config {
 	}
 	log.Printf(`Loaded configuration: %+v`, config)
 	return &config
+}
+
+func getEnvWithDefault(key string, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		value = defaultValue
+	}
+	return value
 }
