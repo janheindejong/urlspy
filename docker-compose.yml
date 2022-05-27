@@ -82,7 +82,7 @@ services:
     environment:
       - APP_CONFIG_RESOURCE_API=http://resources
       - APP_CONFIG_SNAPSHOT_API=http://snapshots
-      - APP_CONFIG_WAIT_DURATION=60s
+      - APP_CONFIG_WAIT_DURATION=24h
 
 volumes:
   postgres-data: null

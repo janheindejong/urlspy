@@ -1,5 +1,7 @@
 # URLStalker 
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 App to scrape URLs at regular interval
 
 ## Architecture 
@@ -20,13 +22,26 @@ The environments of the three apps are completely separate and decoupled. The id
 
 - [x] Create Snapshot app 
 - [x] Create docker compose file for deployment 
-- [ ] Add Debug configurations for VSCode
 - [x] Add persistent storage to snapshot app 
-- [ ] Add read end-points to snapshot app
 - [x] Add Scraper app 
-- [ ] Add storing functionality to scraper app 
+- [x] Add storing functionality to scraper app 
+- [ ] Unittests (yes, I've been a bad boi)
+- [ ] Add Debug configurations for VSCode
+- [ ] Add read end-points to snapshot app
 - [ ] Add e-mail functionality  
 - [ ] Add deployment pipeline 
 
+## Techniques
 
+This application uses the following techniques: 
 
+- Docker and Docker compose 
+- Development containers 
+- Python and Go
+- PostgreSQL and MongoDB 
+- Alembic for SQL database migration
+- SQLAlchemy ORM
+- Python autoformatting using `black`, `isort` and `autoflake`
+- Concurrent programming using `async` in Python, and Go-routines in Go
+- FastAPI 
+- Dependency management in Python with `poetry`
