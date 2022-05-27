@@ -1,7 +1,7 @@
 version: "3"
 services:
 
-  # RESOURCES STACK
+  # ----- RESOURCES STACK -----
   resources:
     build: 
       context: resources
@@ -31,8 +31,19 @@ services:
     networks:
       - resources
 
+  # ----- SNAPSHOTS STACK -----
+  snapshots:
+    build: 
+      context: snapshots
+      dockerfile: Dockerfile
+    ports: 
+      - "9090:80"
+    depends_on:
+      - mongo
+    networks:
+      - snapshots 
+      - default
 
-  # SNAPSHOTS STACK
   mongo:
     image: mongo:4  # The CPU of my MacBook does not support newer version
     restart: always
@@ -57,19 +68,7 @@ services:
       - snapshots 
       - default
 
-  snapshots:
-    build: 
-      context: snapshots
-      dockerfile: Dockerfile
-    ports: 
-      - "9090:80"
-    depends_on:
-      - mongo
-    networks:
-      - snapshots 
-      - default
-
-  # SCRAPER 
+  # ----- SCRAPER ----- 
   scraper: 
     build: 
       context: scraper 
