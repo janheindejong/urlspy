@@ -1,5 +1,7 @@
 import os
+
 import motor.motor_asyncio
+
 
 def get_url():
     return "mongodb://%s:%s@%s" % (
@@ -7,6 +9,7 @@ def get_url():
         os.getenv("APP_CONFIG_DB_PASSWORD", "mongodb"),
         os.getenv("APP_CONFIG_DB_HOST", "mongo:27017"),
     )
+
 
 client = motor.motor_asyncio.AsyncIOMotorClient(get_url())
 
