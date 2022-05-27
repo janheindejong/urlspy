@@ -21,7 +21,7 @@ The environments of the three apps are completely separate and decoupled. The id
 - [x] Create Snapshot app 
 - [x] Create docker compose file for deployment 
 - [ ] Add Debug configurations for VSCode
-- [ ] Add persistent storage to snapshot app 
+- [x] Add persistent storage to snapshot app 
 - [ ] Add read end-points to snapshot app
 - [x] Add Scraper app 
 - [ ] Add storing functionality to scraper app 
