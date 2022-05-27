@@ -1,5 +1,5 @@
 /*
-Webscraper
+Webscraper that takes all resources stored in Resource database, takes snapshots of URLs, and stores in snapshot DB
 */
 
 package main
@@ -9,11 +9,11 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 )
 
 func main() {
-	println("Hello, world!")
 	// Get all Resources from resource api service
 	ResourceApiService := ResourceApiService{host: "http://resources"}
 	resources, err := ResourceApiService.GetResources()
@@ -22,19 +22,32 @@ func main() {
 	}
 
 	// For every resource, launch goroutine that scrapes and posts to snapshot service
+	var wg sync.WaitGroup
 	for _, resource := range *resources {
-		println(resource.Url)
-		snapshot, _ := resource.Snap()
-		log.Println(*snapshot)
+		wg.Add(1)
+		resource := resource
+		go SnapAndSave(&wg, &resource)
 	}
+	wg.Wait()
 }
 
-// Snapshot service to communicate with that
+// Takes snapshot of resource, and stores to snapshot database
+func SnapAndSave(wg *sync.WaitGroup, resource *Resource) {
+	defer wg.Done()
+	snapshot, err := resource.Snap()
+	if err != nil {
+		log.Printf(`Couldn't snap resource with url "%s", error: %s`, resource.Url, err.Error())
+		return
+	}
+	log.Printf(`Received statuscode "%v" from resource with path "%s"`, snapshot.StatusCode, resource.Url)
+}
 
+// Represents a resource, i.e. a URL that will be snapped
 type Resource struct {
 	Url string `json:"url"`
 }
 
+// Take snapshot of resource
 func (resource Resource) Snap() (*SnapShot, error) {
 	log.Printf(`Snapping resource with url "%s"`, resource.Url)
 
@@ -61,6 +74,7 @@ func (resource Resource) Snap() (*SnapShot, error) {
 	return &snapshot, nil
 }
 
+// Snapshot of given URL
 type SnapShot struct {
 	Url        string    `json:"url"`
 	Datetime   time.Time `json:"datetime"`
@@ -73,6 +87,7 @@ type ResourceApiService struct {
 	host string
 }
 
+// Get list of all resources stored in DB
 func (api ResourceApiService) GetResources() (*[]Resource, error) {
 	// Gets all the resources in the database
 	log.Printf(`Getting resources from database at "%v"`, api.host)
