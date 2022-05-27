@@ -8,6 +8,9 @@ services:
       dockerfile: Dockerfile
     environment:
       RUN_MIGRATION: 1
+      APP_CONFIG_DB_USER: postgres
+      APP_CONFIG_DB_PASSWORD: postgres
+      APP_CONFIG_DB_HOST: postgres:5432
     ports: 
       - "8080:80"
     depends_on:
