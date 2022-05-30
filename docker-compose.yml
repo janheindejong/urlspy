@@ -73,6 +73,7 @@ services:
     build: 
       context: scraper 
       dockerfile: Dockerfile
+    restart: always
     depends_on:
       - snapshots
       - resources
