@@ -15,3 +15,4 @@ class Resource(Base):
 
     id = Column(Integer, primary_key=True)
     url = Column(String)
+    email_address = Column(String)
