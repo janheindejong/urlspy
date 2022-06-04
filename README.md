@@ -25,8 +25,11 @@ The environments of the three apps are completely separate and decoupled. The id
 - [x] Add persistent storage to snapshot app 
 - [x] Add Scraper app 
 - [x] Add storing functionality to scraper app 
+- [x] Add delete endpoint
+- [ ] Improve devcontainer workflow to allow to work on multiple parts at same time
+- [ ] Add automatic test data to development PostgressDB
 - [ ] Unittests (yes, I've been a bad boi)
-- [ ] Add Debug configurations for VSCode
+- [X] Add Debug configurations for VSCode
 - [ ] Add read end-points to snapshot app
 - [ ] Add e-mail functionality  
 - [ ] Add deployment pipeline 
