@@ -1,6 +1,6 @@
 """Hello, world"""
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Response, status
 from sqlalchemy.orm import Session
 
 from . import crud, database, models, schemas
@@ -33,3 +33,12 @@ def post_resource(
     resource: schemas.ResourceBase, db: Session = Depends(get_db)
 ) -> models.Resource:
     return crud.create_new_resource(db, resource)
+
+
+@app.delete("/resource")
+def delete_resource(resource_id: int, db: Session = Depends(get_db)) -> models.Resource:
+    try:
+        crud.delete_resource(db, resource_id)
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    except crud.ResourceNotFound:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
