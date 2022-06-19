@@ -6,8 +6,9 @@
 		"../../docker-compose.yml",
 		"docker-compose.extend.yml"
 	],
-	"service": "resources",
+	"service": "resources-dev",
 	"workspaceFolder": "/workspace/resources",
+	"runServices": ["resources-dev", "postgres"],
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 

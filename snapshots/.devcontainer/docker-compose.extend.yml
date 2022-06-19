@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  snapshots:
+  snapshots-dev:
     build:
       context: snapshots
       dockerfile: .devcontainer/Dockerfile
@@ -12,3 +12,10 @@ services:
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
+
+    depends_on:
+      - mongo
+
+    networks:
+      - snapshots 
+      - default

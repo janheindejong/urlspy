@@ -16,7 +16,9 @@ App to scrape URLs at regular interval
 
 For the development, I wanted to experiment with the use of VSCode's development containers. If you have the plugin enabled in VSCode, and have Docker running on your machine, VSCode should automatically launch in the development container for the application you want to work on. Next to the development container, it also starts containers for all the other apps in the stack. 
 
-The environments of the three apps are completely separate and decoupled. The idea is that you can optimize your development environment to the app at hand. 
+The setup is such that if you open any of the application folders (i.e. `./resources`, `./snapshots`, or `./scraper`), it spins up a `<appname>-dev` container with all the right tooling, and mounts the working directory. Additionally, it launches (or re-uses already running) services from the stack it needs (e.g. the database). Pretty neat. 
+
+For more reading on why development containers are promising, read [this](https://www.infoq.com/articles/devcontainers/). 
 
 ## To do
 

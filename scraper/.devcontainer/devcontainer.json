@@ -6,7 +6,7 @@
 		"../../docker-compose.yml",
 		"docker-compose.extend.yml"
 	],
-	"service": "scraper",
+	"service": "scraper-dev",
 	"workspaceFolder": "/workspace/scraper",
 
 	// Set *default* container specific settings.json values on container create.
