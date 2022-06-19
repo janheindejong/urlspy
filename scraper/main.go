@@ -21,7 +21,7 @@ func main() {
 
 	waitTime, err := time.ParseDuration(config.WaitDuration)
 	if err != nil {
-		log.Fatalf(`Couldn't parse duration string "%s"`, getEnvWithDefault("APP_CONFIG_WAIT_TIME", "30s"))
+		log.Fatalf(`Couldn't parse duration string "%s"`, config.WaitDuration)
 	}
 	for {
 		// Get all Resources from resource api service
@@ -67,18 +67,10 @@ type Config struct {
 
 func LoadConfigFromEnv() *Config {
 	config := Config{
-		ResourceApi:  getEnvWithDefault("APP_CONFIG_RESOURCE_API", "http://resources"),
-		SnapShotApi:  getEnvWithDefault("APP_CONFIG_SNAPSHOT_API", "http://snapshots"),
-		WaitDuration: getEnvWithDefault("APP_CONFIG_WAIT_DURATION", "30s"),
+		ResourceApi:  os.Getenv("APP_CONFIG_RESOURCE_API"),
+		SnapShotApi:  os.Getenv("APP_CONFIG_SNAPSHOT_API"),
+		WaitDuration: os.Getenv("APP_CONFIG_WAIT_DURATION"),
 	}
 	log.Printf(`Loaded configuration: %+v`, config)
 	return &config
-}
-
-func getEnvWithDefault(key string, defaultValue string) string {
-	value := os.Getenv(key)
-	if value == "" {
-		value = defaultValue
-	}
-	return value
 }
