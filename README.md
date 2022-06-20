@@ -50,3 +50,11 @@ This application uses the following techniques:
 - Concurrent programming using `async` in Python, and Go-routines in Go
 - FastAPI 
 - Dependency management in Python with `poetry`
+
+
+## New setup 
+
+Okay, so using both a SQL database and a MongoDB is not a good setup. Instead, let's work with just a MongoDB. In the new setup, we'll have one database within a MongoDB (`urlstalker`), which has two collections: 
+
+- `resources` - contains resources that need to be tracked, including metadata and latest 10 snapshots (or link to latest)
+- `snapshots` - contains full list of all snapshots

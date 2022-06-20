@@ -1,17 +1,10 @@
 version: '3.8'
 
 services:
-  resources-dev:
+  api-dev:
     build:
-      context: resources
+      context: api
       dockerfile: .devcontainer/Dockerfile
-
-    # Set environment variables
-    environment: 
-      RUN_MIGRATION: 0
-      APP_CONFIG_DB_USER: postgres
-      APP_CONFIG_DB_PASSWORD: postgres
-      APP_CONFIG_DB_HOST: postgres:5432
 
     # Mount source
     volumes:
@@ -19,6 +12,10 @@ services:
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
+
+    depends_on:
+      - mongo
+
     networks:
+      - mongo 
       - default
-      - resources

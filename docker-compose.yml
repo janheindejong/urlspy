@@ -1,47 +1,17 @@
 version: "3"
 services:
 
-  # ----- RESOURCES STACK -----
-  resources:
+  # ----- API STACK -----
+  api:
     build: 
-      context: resources
-      dockerfile: Dockerfile
-    environment:
-      RUN_MIGRATION: 1
-      APP_CONFIG_DB_USER: postgres
-      APP_CONFIG_DB_PASSWORD: postgres
-      APP_CONFIG_DB_HOST: postgres:5432
-    ports: 
-      - "8080:80"
-    depends_on:
-      - postgres
-    networks:
-      - default
-      - resources
-
-  postgres:
-    image: postgres:latest
-    restart: unless-stopped
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_PASSWORD: postgres
-    networks:
-      - resources
-
-  # ----- SNAPSHOTS STACK -----
-  snapshots:
-    build: 
-      context: snapshots
+      context: api
       dockerfile: Dockerfile
     ports: 
       - "9090:80"
     depends_on:
       - mongo
     networks:
-      - snapshots 
+      - mongo 
       - default
 
   mongo:
@@ -53,7 +23,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: mongodb
       MONGO_INITDB_ROOT_PASSWORD: mongodb
     networks:
-      - snapshots
+      - mongo
 
   mongo-express:
     image: mongo-express
@@ -65,7 +35,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongodb
       ME_CONFIG_MONGODB_URL: mongodb://mongodb:mongodb@mongo:27017/
     networks:
-      - snapshots 
+      - mongo 
       - default
 
   # ----- SCRAPER ----- 
@@ -75,19 +45,15 @@ services:
       dockerfile: Dockerfile
     restart: always
     depends_on:
-      - snapshots
-      - resources
+      - api
     networks: 
       - default 
     environment:
-      - APP_CONFIG_RESOURCE_API=http://resources
-      - APP_CONFIG_SNAPSHOT_API=http://snapshots
+      - APP_CONFIG_API_URL=http://api
       - APP_CONFIG_WAIT_DURATION=24h
 
 volumes:
-  postgres-data: null
   mongo-data: null
 
 networks:
-  resources:
-  snapshots:
+  mongo:

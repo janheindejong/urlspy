@@ -6,9 +6,9 @@
 		"../../docker-compose.yml",
 		"docker-compose.extend.yml"
 	],
-	"service": "snapshots-dev",
-	"workspaceFolder": "/workspace/snapshots",
-	"runServices": ["snapshots-dev", "mongo", "mongo-express"],
+	"service": "api-dev",
+	"workspaceFolder": "/workspace/api",
+	"runServices": ["api-dev", "mongo", "mongo-express"],
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 

@@ -16,6 +16,4 @@ services:
     networks: 
       - default 
     environment:
-      - APP_CONFIG_RESOURCE_API=http://resources
-      - APP_CONFIG_SNAPSHOT_API=http://snapshots
       - APP_CONFIG_WAIT_DURATION=30s
