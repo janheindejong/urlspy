@@ -26,7 +26,7 @@ def get_application_database() -> Database:
 
 
 def connect_to_database() -> None:
-    db.client = MongoClient(get_db_uri())
+    db.client = MongoClient(get_db_uri(), tz_aware=True)
     logger.info("Successfully connected DB")
 
 
