@@ -1,16 +1,35 @@
-import os
+from loguru import logger
+from pymongo import MongoClient
+from pymongo.database import Database
 
-import motor.motor_asyncio
+from .config import config
 
 
-def get_url():
-    return "mongodb://%s:%s@%s" % (
-        os.getenv("APP_CONFIG_DB_USER", "mongodb"),
-        os.getenv("APP_CONFIG_DB_PASSWORD", "mongodb"),
-        os.getenv("APP_CONFIG_DB_HOST", "mongo:27017"),
+def get_db_uri():
+    return "mongodb://{username}:{password}@{host}:{port}".format(  # pylint: disable=consider-using-f-string
+        username=config.mongo_db_username,
+        password=config.mongo_db_password,
+        host=config.mongo_db_host,
+        port=config.mongo_db_port,
     )
 
 
-client = motor.motor_asyncio.AsyncIOMotorClient(get_url())
+class DbConnHandler:
+    client: MongoClient
 
-database: motor.motor_asyncio.AsyncIOMotorDatabase = client.snapshots
+
+db = DbConnHandler()
+
+
+def get_application_database() -> Database:
+    return db.client[config.mongo_db_name]
+
+
+def connect_to_database() -> None:
+    db.client = MongoClient(get_db_uri())
+    logger.info("Successfully connected DB")
+
+
+def disconnect_from_database() -> None:
+    db.client.close()
+    logger.info("Successfully disconnected DB")

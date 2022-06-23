@@ -1,24 +1,11 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 
-from .crud import create_snapshot, read_snapshot
-from .database import database
-from .models import CreateSnapShot, SnapShot, SnapShotQuery
+from .api import router
+from .database import connect_to_database, disconnect_from_database
 
 app = FastAPI()
 
+app.include_router(router)
 
-@app.get("/")
-def hello_world():
-    return "Hello, world!"
-
-
-@app.get("/snapshot", response_model=list[SnapShot])
-async def get_snapshot(snapshot_query: SnapShotQuery):
-    return await read_snapshot(database, snapshot_query)
-
-
-
-@app.post("/snapshot", response_model=SnapShot, status_code=status.HTTP_201_CREATED)
-async def post_snapshot(snapshot: CreateSnapShot):
-    new_snapshot = await create_snapshot(database, snapshot)
-    return new_snapshot
+app.add_event_handler("startup", connect_to_database)
+app.add_event_handler("shutdown", disconnect_from_database)

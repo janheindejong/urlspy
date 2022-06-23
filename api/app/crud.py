@@ -1,20 +1,13 @@
-from motor.motor_asyncio import AsyncIOMotorCollection, AsyncIOMotorDatabase
+from pymongo.database import Database
 
-from .models import CreateSnapShot, SnapShotQuery, SnapShot
+from app.models import Resource, ResourceInDB
 
-
-async def create_snapshot(db: AsyncIOMotorDatabase, snapshot: CreateSnapShot):
-    snapshots: AsyncIOMotorCollection = db.get_collection("snapshots")
-    snapshot = await snapshots.insert_one(snapshot.dict())
-    new_snapshot = await snapshots.find_one({"_id": snapshot.inserted_id})
-    return new_snapshot
+resource_collection_name = "resources"
 
 
-async def read_snapshot(db: AsyncIOMotorDatabase, snapshot_query: SnapShotQuery) -> list[SnapShot]: 
-    result = []
-    snapshots: AsyncIOMotorCollection = db.get_collection("snapshots")
-    cursor = snapshots.find({"url": snapshot_query.url})
-    cursor.sort("datetime", -1).limit(snapshot_query.limit)
-    async for document in cursor: 
-        result.append(document)
-    return result
+def create_resource(resource: Resource, db: Database):
+    db[resource_collection_name].insert_one(resource.dict())
+
+
+def read_resources(db: Database):
+    return [ResourceInDB(**row) for row in db[resource_collection_name].find()]

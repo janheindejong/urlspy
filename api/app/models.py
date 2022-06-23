@@ -1,10 +1,10 @@
-from datetime import datetime
+from typing import Optional
 
 from bson import ObjectId
-from pydantic import AnyHttpUrl, BaseModel, Field
+from pydantic import AnyHttpUrl, BaseModel, EmailStr, Field
 
 
-class ObjectIdField(ObjectId):
+class PydanticObjectId(ObjectId):
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
@@ -20,22 +20,19 @@ class ObjectIdField(ObjectId):
         field_schema.update(type="string")
 
 
-class CreateSnapShot(BaseModel):
-    url: AnyHttpUrl
-    datetime: datetime
-    response: int
-    body: str
-
-
-class SnapShot(CreateSnapShot):
-    id: ObjectIdField = Field(default_factory=ObjectIdField, alias="_id")
+class DBModelMixin(BaseModel):
+    id: PydanticObjectId = Field(..., alias="_id")
 
     class Config:
         allow_population_by_field_name = True
-        arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+        arbitrary_types_allowed = True
 
 
-class SnapShotQuery(BaseModel): 
-    url: str 
-    limit: int
+class Resource(BaseModel):
+    url: AnyHttpUrl
+    email: Optional[EmailStr] = None
+
+
+class ResourceInDB(Resource, DBModelMixin):
+    ...

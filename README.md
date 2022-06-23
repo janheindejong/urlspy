@@ -56,5 +56,28 @@ This application uses the following techniques:
 
 Okay, so using both a SQL database and a MongoDB is not a good setup. Instead, let's work with just a MongoDB. In the new setup, we'll have one database within a MongoDB (`urlstalker`), which has two collections: 
 
-- `resources` - contains resources that need to be tracked, including metadata and latest 10 snapshots (or link to latest)
-- `snapshots` - contains full list of all snapshots
+- `resources` - contains resources that need to be tracked, including metadata and latest snapshot
+- `snapshots` - contains full list of all snapshots, including link to resource id
+
+
+The resource model has the following format: 
+
+```json
+{
+    "_id": 123456789,
+    "url": "https://example.com", 
+    "email": "john@doe.com", 
+} 
+```
+
+Snapshots have the following shape: 
+
+```json 
+{
+    "_id": 123456789, 
+    "datetime": "2022-01-20T00:00:00.0+00:00", 
+    "status_code": 200, 
+    "body": "<html><body>Hello, world!<body/><html/>",
+    "resource_id": 123456789
+}
+```
