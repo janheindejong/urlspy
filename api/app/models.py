@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Optional
 
@@ -24,19 +26,10 @@ class PydanticObjectId(ObjectId):
 class DBModelMixin(BaseModel):
     id: PydanticObjectId = Field(..., alias="_id")
 
-    class Config:
+    class Config:  # pylint: disable=too-few-public-methods
         allow_population_by_field_name = True
         json_encoders = {ObjectId: str}
         arbitrary_types_allowed = True
-
-
-class Resource(BaseModel):
-    url: AnyHttpUrl
-    email: Optional[EmailStr] = None
-
-
-class ResourceInDB(Resource, DBModelMixin):
-    ...
 
 
 class Snapshot(BaseModel):
@@ -47,3 +40,12 @@ class Snapshot(BaseModel):
 
 class SnapshotInDB(Snapshot, DBModelMixin):
     resource_id: PydanticObjectId = Field(..., alias="_id")
+
+
+class Resource(BaseModel):
+    url: AnyHttpUrl
+    email: Optional[EmailStr] = None
+
+
+class ResourceInDB(Resource, DBModelMixin):
+    latest_snapshot: Optional[SnapshotInDB] = None

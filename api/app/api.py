@@ -4,11 +4,11 @@ from pymongo.database import Database
 from app.database import get_application_database
 
 from .crud import (
-    create_resource,
-    create_snapshot,
-    read_resources,
+    create_new_resource,
+    create_new_snapshot,
+    read_many_resources,
+    read_many_snapshots,
     read_single_resource,
-    read_snapshots,
 )
 from .models import Resource, ResourceInDB, Snapshot, SnapshotInDB
 
@@ -22,12 +22,12 @@ def root():
 
 @router.get("/resource", response_model=list[ResourceInDB])
 def get_resources(db: Database = Depends(get_application_database)):
-    return read_resources(db)
+    return read_many_resources(db)
 
 
-@router.post("/resource", response_model=ResourceInDB)
+@router.post("/resource", response_model=ResourceInDB, status_code=201)
 def post_resource(resource: Resource, db: Database = Depends(get_application_database)):
-    return create_resource(resource, db)
+    return create_new_resource(resource, db)
 
 
 @router.get("/resource/{resource_id}", response_model=ResourceInDB)
@@ -39,13 +39,15 @@ def get_resource(resource_id: str, db: Database = Depends(get_application_databa
 def get_resource_snapshots(
     resource_id: str, db: Database = Depends(get_application_database)
 ):
-    return read_snapshots(resource_id, db)
+    return read_many_snapshots(resource_id, db)
 
 
-@router.post("/resource/{resource_id}/snapshots", response_model=SnapshotInDB)
+@router.post(
+    "/resource/{resource_id}/snapshots", response_model=SnapshotInDB, status_code=201
+)
 def post_resource_snapshots(
     resource_id: str,
     snapshot: Snapshot,
     db: Database = Depends(get_application_database),
 ):
-    return create_snapshot(resource_id, snapshot, db)
+    return create_new_snapshot(resource_id, snapshot, db)

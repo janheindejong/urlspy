@@ -10,6 +10,14 @@ services:
       - "9090:80"
     depends_on:
       - mongo
+    environment:
+      APP_MONGO_DB_HOST: mongodb
+      APP_MONGO_DB_PORT: 27017
+      APP_MONGO_DB_USERNAME: mongodb
+      APP_MONGO_DB_PASSWORD: mongodb
+      APP_DATABASE_NAME: urlstalker
+      APP_RESOURCES_COLLECTION_NAME: urlstalker
+      APP_SNAPSHOTS_COLLECTION_NAME: urlstalker
     networks:
       - mongo 
       - default

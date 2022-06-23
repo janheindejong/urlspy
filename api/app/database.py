@@ -22,7 +22,7 @@ db = DbConnHandler()
 
 
 def get_application_database() -> Database:
-    return db.client[config.mongo_db_name]
+    return db.client[config.database_name]
 
 
 def connect_to_database() -> None:
