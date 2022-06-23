@@ -27,12 +27,11 @@ For more reading on why development containers are promising, read [this](https:
 - [x] Add persistent storage to snapshot app 
 - [x] Add Scraper app 
 - [x] Add storing functionality to scraper app 
-- [x] Add delete endpoint
-- [ ] Improve devcontainer workflow to allow to work on multiple parts at same time
-- [ ] Add automatic test data to development PostgressDB
-- [ ] Unittests (yes, I've been a bad boi)
+- [x] Improve devcontainer workflow to allow to work on multiple parts at same time
 - [X] Add Debug configurations for VSCode
-- [ ] Add read end-points to snapshot app
+- [x] Add read end-points to snapshot app
+- [ ] Add delete endpoint
+- [ ] Unittests (yes, I've been a bad boi)
 - [ ] Add e-mail functionality  
 - [ ] Add deployment pipeline 
 
@@ -41,12 +40,41 @@ For more reading on why development containers are promising, read [this](https:
 This application uses the following techniques: 
 
 - Docker and Docker compose 
-- Development containers 
+- Advanced VSCode features like auto-formatting, auto-sorting, and development containers 
 - Python and Go
-- PostgreSQL and MongoDB 
-- Alembic for SQL database migration
-- SQLAlchemy ORM
-- Python autoformatting using `black`, `isort` and `autoflake`
-- Concurrent programming using `async` in Python, and Go-routines in Go
+- MongoDB  
+- Concurrent programming using Go-routines in Go
 - FastAPI 
-- Dependency management in Python with `poetry`
+- Dependency management in Python using `poetry`
+
+
+## New setup 
+
+Okay, so using both a SQL database and a MongoDB is not a good setup. Instead, let's work with just a MongoDB. In the new setup, we'll have one database within a MongoDB (`urlstalker`), which has two collections: 
+
+- `resources` - contains resources that need to be tracked, including metadata and latest snapshot
+- `snapshots` - contains full list of all snapshots, including link to resource id
+
+
+The resource model has the following format: 
+
+```json
+{
+    "_id": 123456789,
+    "url": "https://example.com", 
+    "email": "john@doe.com", 
+    "latest_snapshot": null  // One snapshot, optional
+} 
+```
+
+Snapshots have the following shape: 
+
+```json 
+{
+    "_id": 123456789, 
+    "datetime": "2022-01-20T00:00:00.0+00:00", 
+    "status_code": 200, 
+    "body": "<html><body>Hello, world!<body/><html/>",
+    "resource_id": 123456789
+}
+```

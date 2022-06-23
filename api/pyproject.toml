@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "snapshots"
+version = "0.1.0"
+description = ""
+authors = ["Jan Hein de Jong <janhein.dejong@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.78.0"
+uvicorn = "^0.17.6"
+pymongo = "^4.1.1"
+loguru = "^0.6.0"
+email-validator = "^1.2.1"
+
+[tool.poetry.dev-dependencies]
+isort = "^5.10.1"
+autoflake = "^1.4"
+mypy = "^0.961"
+
+[tool.pylint.master]
+extension-pkg-whitelist="pydantic"
+disable="missing-docstring"
+
+[tool.pylint.basic]
+good-names=["db", "id"]
+
+[tool.isort]
+profile = "black" 
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  scraper-dev:
+  api-dev:
     build:
-      context: scraper
+      context: api
       dockerfile: .devcontainer/Dockerfile
 
     # Mount source
@@ -13,8 +13,9 @@ services:
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
 
-    networks: 
-      - default 
-    environment:
-      - APP_API_URL=http://api
-      - APP_WAIT_DURATION=30s
+    depends_on:
+      - mongo
+
+    networks:
+      - mongo 
+      - default
