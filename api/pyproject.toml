@@ -22,7 +22,7 @@ extension-pkg-whitelist="pydantic"
 disable="missing-docstring"
 
 [tool.pylint.basic]
-good-names=["db"]
+good-names=["db", "id"]
 
 [tool.isort]
 profile = "black" 

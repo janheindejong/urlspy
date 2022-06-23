@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from bson import ObjectId
@@ -36,3 +37,13 @@ class Resource(BaseModel):
 
 class ResourceInDB(Resource, DBModelMixin):
     ...
+
+
+class Snapshot(BaseModel):
+    datetime: datetime
+    status_code: int
+    body: str
+
+
+class SnapshotInDB(Snapshot, DBModelMixin):
+    resource_id: PydanticObjectId = Field(..., alias="_id")
