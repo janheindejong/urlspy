@@ -63,6 +63,7 @@ The resource model has the following format:
     "_id": 123456789,
     "url": "https://example.com", 
     "email": "john@doe.com", 
+    "latest_snapshot": null  // One snapshot, optional
 } 
 ```
 

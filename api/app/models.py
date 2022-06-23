@@ -39,7 +39,7 @@ class Snapshot(BaseModel):
 
 
 class SnapshotInDB(Snapshot, DBModelMixin):
-    resource_id: PydanticObjectId = Field(..., alias="_id")
+    resource_id: PydanticObjectId = Field(..., alias="resource_id")
 
 
 class Resource(BaseModel):
