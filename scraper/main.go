@@ -23,7 +23,7 @@ func main() {
 		log.Fatalf(`Couldn't parse duration string "%s"`, Config.WaitDuration)
 	}
 	for {
-		// Get all Resources from resource api service
+		// Get all resources from api service
 		resources, err := ApiService.GetResources()
 		if err != nil {
 			log.Fatal(err.Error())
@@ -51,9 +51,30 @@ func main() {
 }
 
 // Takes snapshot of resource, and stores to snapshot database
-func SnapAndSave(wg *sync.WaitGroup, resource *Resource, apiService *ApiService) {
+func SnapAndSave(wg *sync.WaitGroup, resource *Resource, apiService *ApiService) error {
 	defer wg.Done()
-	log.Println(*resource)
+
+	// Make new snapshot
+	snapshot, err := resource.Snap()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	// Compare
+	if snapshot.Body == resource.LatestSnapshot.Body {
+		log.Printf(`Body for url "%s" has not changed`, resource.Url)
+	} else {
+		log.Printf(`Body for url "%s" has changed`, resource.Url)
+	}
+
+	// Post
+	err = apiService.PostSnapshot(resource, snapshot)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return nil
 }
 
 type Config struct {
