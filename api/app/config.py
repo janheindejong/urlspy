@@ -14,7 +14,7 @@ class Config(BaseSettings):
     resources_collection_name = "resources"
     snapshots_collection_name = "snapshots"
 
-    class Config:
+    class Config:  # pylint: disable=too-few-public-methods
         env_prefix = "app_"
 
 
