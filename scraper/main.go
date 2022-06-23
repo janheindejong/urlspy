@@ -13,14 +13,14 @@ import (
 
 func main() {
 
-	config := LoadConfigFromEnv()
+	Config := LoadConfigFromEnv()
 
 	// Create services
-	ApiService := ApiService{host: config.ApiHost}
+	ApiService := ApiService{host: Config.ApiHost}
 
-	waitTime, err := time.ParseDuration(config.WaitDuration)
+	waitTime, err := time.ParseDuration(Config.WaitDuration)
 	if err != nil {
-		log.Fatalf(`Couldn't parse duration string "%s"`, config.WaitDuration)
+		log.Fatalf(`Couldn't parse duration string "%s"`, Config.WaitDuration)
 	}
 	for {
 		// Get all Resources from resource api service
