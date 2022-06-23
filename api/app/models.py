@@ -10,10 +10,10 @@ class PydanticObjectId(ObjectId):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
-        if not ObjectId.is_valid(v):
+    def validate(cls, value):
+        if not ObjectId.is_valid(value):
             raise ValueError("Invalid objectid")
-        return ObjectId(v)
+        return ObjectId(value)
 
     @classmethod
     def __modify_schema__(cls, field_schema):
