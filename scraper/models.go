@@ -15,7 +15,15 @@ type Resource struct {
 	LatestSnapshot Snapshot `json:"latest_snapshot"`
 }
 
-// Take snapshot of resource
+type Snapshot struct {
+	Id         string    `json:"_id"`
+	Datetime   time.Time `json:"datetime"`
+	StatusCode int       `json:"status_code"`
+	Body       string    `json:"body"`
+	ResourceId string    `json:"resource_id"`
+}
+
+// Snap calls the URL of a resource to generate a Snapshot
 func (resource Resource) Snap() (*Snapshot, error) {
 	log.Printf(`Snapping resource with url "%s"`, resource.Url)
 
@@ -41,10 +49,6 @@ func (resource Resource) Snap() (*Snapshot, error) {
 	return &snapshot, nil
 }
 
-type Snapshot struct {
-	Id         string    `json:"_id"`
-	Datetime   time.Time `json:"datetime"`
-	StatusCode int       `json:"status_code"`
-	Body       string    `json:"body"`
-	ResourceId string    `json:"resource_id"`
+func (resource Resource) HasChanged(snapshot *Snapshot) bool {
+	return snapshot.Body == resource.LatestSnapshot.Body
 }
