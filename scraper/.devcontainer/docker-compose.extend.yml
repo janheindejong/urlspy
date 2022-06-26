@@ -18,4 +18,6 @@ services:
     environment:
       - APP_API_URL=http://api
       - APP_WAIT_DURATION=5s
-      - APP_SECRET_DIR=secret
+      - APP_EMAIL_ACCOUNT_FILE=secrets/email_account.txt
+      - APP_EMAIL_PASSWORD_FILE=secrets/email_password.txt
+

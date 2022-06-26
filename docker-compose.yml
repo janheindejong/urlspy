@@ -59,10 +59,11 @@ services:
     environment:
       - APP_API_URL=http://api
       - APP_WAIT_DURATION=24h
-      - APP_SECRET_DIR=/run/secret
+      - APP_EMAIL_ACCOUNT_FILE=/run/secrets/email_account
+      - APP_EMAIL_PASSWORD_FILE=/run/secrets/email_password
     secrets: 
-      - email-account
-      - email-password
+      - email_account
+      - email_password
 
 volumes:
   mongo-data: null
@@ -71,7 +72,7 @@ networks:
   mongo:
 
 secrets:
-  email-account: 
+  email_account: 
     file: /opt/urlstalker/email_account.txt
-  email-password: 
+  email_password: 
     file: /opt/urlstalker/email_password.txt

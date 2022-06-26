@@ -43,8 +43,8 @@ func getWaitDuration() time.Duration {
 }
 
 func getEmailAcount() string {
-	dir := os.Getenv("APP_SECRET_DIR")
-	b, err := os.ReadFile(dir + "/email_account.txt")
+	filename := os.Getenv("APP_EMAIL_ACCOUNT_FILE")
+	b, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -52,8 +52,8 @@ func getEmailAcount() string {
 }
 
 func getEmailPassword() string {
-	dir := os.Getenv("APP_SECRET_DIR")
-	b, err := os.ReadFile(dir + "/email_password.txt")
+	filename := os.Getenv("APP_EMAIL_PASSWORD_FILE")
+	b, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
