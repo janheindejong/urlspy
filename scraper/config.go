@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -44,18 +45,19 @@ func getWaitDuration() time.Duration {
 
 func getEmailAcount() string {
 	filename := os.Getenv("APP_EMAIL_ACCOUNT_FILE")
-	b, err := os.ReadFile(filename)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(b)
+	return readSecret(filename)
 }
 
 func getEmailPassword() string {
 	filename := os.Getenv("APP_EMAIL_PASSWORD_FILE")
+	return readSecret(filename)
+}
+
+func readSecret(filename string) string {
 	b, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(b)
+	// Need to trim any trailing whitespace, since Docker secrets adds a newline to the file
+	return strings.TrimSpace(string(b))
 }

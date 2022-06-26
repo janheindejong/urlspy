@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/smtp"
 )
 
@@ -24,13 +23,12 @@ func (s EmailServiceSmtp) auth() smtp.Auth {
 }
 
 func (s EmailServiceSmtp) generateMessage(resource *Resource) []byte {
-	msg := fmt.Sprintf(`To: %s\r\n`+
-		`Subject: URL changed!\r\n`+
-		`\r\n`+
-		`Hi!\r\n`+
-		`\r\n`+
-		`The following resource has changed: \r\n`+
-		`%s`, resource.Email, resource.Url)
-	log.Print(msg)
+	msg := fmt.Sprintf("To: %s\r\n"+
+		"Subject: URL changed!\r\n"+
+		"\r\n"+
+		"Hi!\r\n"+
+		"\r\n"+
+		"The following resource has changed: \r\n"+
+		"%s", resource.Email, resource.Url)
 	return []byte(msg)
 }
