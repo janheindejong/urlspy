@@ -3,7 +3,7 @@ package main
 func main() {
 
 	config := LoadConfigFromEnv()
-	apiService := ApiService{host: config.ApiHost}
+	dbService := DbService{host: config.ApiHost}
 	emailService := EmailServiceSmtp{
 		host:    "smtp.gmail.com",
 		port:    587,
@@ -12,7 +12,7 @@ func main() {
 	}
 
 	scraper := Scraper{
-		apiService:   &apiService,
+		dbService:    &dbService,
 		emailService: &emailService,
 		waitDuration: config.WaitDuration,
 	}

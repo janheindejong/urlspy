@@ -12,7 +12,7 @@ var wg sync.WaitGroup
 // Scraper is responsible for the business logic of the application -
 // i.e. periodically taking snapshots from all resources in the DB
 type Scraper struct {
-	apiService   *ApiService
+	dbService    *DbService
 	emailService *EmailServiceSmtp
 	waitDuration time.Duration
 }
@@ -30,7 +30,7 @@ func (scraper Scraper) RunForever() {
 func (scraper Scraper) runOnce() {
 
 	// Get all resources from api service
-	resources, err := scraper.apiService.GetResources()
+	resources, err := scraper.dbService.GetResources()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -63,7 +63,7 @@ func (scraper Scraper) handleResource(resource *Resource) (err error) {
 	}
 
 	// Post snapshot to API
-	err = scraper.apiService.PostSnapshot(resource, snapshot)
+	err = scraper.dbService.PostSnapshot(resource, snapshot)
 	if err != nil {
 		log.Println(err)
 	}

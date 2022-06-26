@@ -8,18 +8,18 @@ import (
 	"net/http"
 )
 
-// ApiService to communicate with the resource DB api
-type ApiService struct {
+// DbService to communicate with the resource DB api
+type DbService struct {
 	host string
 }
 
 // Get list of all resources stored in DB
-func (api ApiService) GetResources() ([]Resource, error) {
+func (db DbService) GetResources() ([]Resource, error) {
 	// Gets all the resources in the database
-	log.Printf(`Getting resources from database at "%v"`, api.host)
+	log.Printf(`Getting resources from database at "%v"`, db.host)
 
 	// Make HTTP call to API
-	resp, err := http.Get(api.host + "/resource")
+	resp, err := http.Get(db.host + "/resource")
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func (api ApiService) GetResources() ([]Resource, error) {
 }
 
 // Post new snapshot
-func (api ApiService) PostSnapshot(resource *Resource, snapshot *Snapshot) error {
+func (db DbService) PostSnapshot(resource *Resource, snapshot *Snapshot) error {
 	// Marshal snapshot
 	body, err := json.Marshal(*snapshot)
 	if err != nil {
@@ -39,7 +39,7 @@ func (api ApiService) PostSnapshot(resource *Resource, snapshot *Snapshot) error
 	}
 
 	// Post snapshot
-	url := fmt.Sprintf("%s/resource/%s/snapshots", api.host, resource.Id)
+	url := fmt.Sprintf("%s/resource/%s/snapshots", db.host, resource.Id)
 	_, err = http.Post(url, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		return err
