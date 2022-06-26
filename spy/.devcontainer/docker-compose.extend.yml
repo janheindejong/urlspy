@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  spy-dev:
+    build:
+      context: spy
+      dockerfile: .devcontainer/Dockerfile
+
+    # Mount source
+    volumes:
+      - .:/workspace:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    networks: 
+      - default 
+    environment:
+      - APP_API_URL=http://api
+      - APP_WAIT_DURATION=5s
+      - APP_EMAIL_ACCOUNT_FILE=secrets/email_account.txt
+      - APP_EMAIL_PASSWORD_FILE=secrets/email_password.txt
+      - APP_EMAIL_HOST=stmp.gmail.com
+      - APP_EMAIL_PORT=587
+

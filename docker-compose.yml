@@ -47,9 +47,9 @@ services:
       - default
 
   # ----- SCRAPER ----- 
-  scraper: 
+  spy: 
     build: 
-      context: scraper 
+      context: spy 
       dockerfile: Dockerfile
     restart: always
     depends_on:

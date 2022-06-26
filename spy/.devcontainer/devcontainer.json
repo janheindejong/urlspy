@@ -6,9 +6,9 @@
 		"../../docker-compose.yml",
 		"docker-compose.extend.yml"
 	],
-	"service": "scraper-dev",
-	"workspaceFolder": "/workspace/scraper",
-	"runServices": ["scraper-dev", "api", "mongo", "mongo-express"],
+	"service": "spy-dev",
+	"workspaceFolder": "/workspace/spy",
+	"runServices": ["spy-dev", "api", "mongo", "mongo-express"],
 
 
 	// Set *default* container specific settings.json values on container create.

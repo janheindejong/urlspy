@@ -9,28 +9,28 @@ import (
 // wg is used to ensure all resources have been handled before starting a new loop
 var wg sync.WaitGroup
 
-// Scraper is responsible for the business logic of the application -
+// Spy is responsible for the business logic of the application -
 // i.e. periodically taking snapshots from all resources in the DB
-type Scraper struct {
+type Spy struct {
 	dbService    *DbService
 	emailService *EmailServiceSmtp
 	waitDuration time.Duration
 }
 
 // RunForever starts the scraper
-func (scraper Scraper) RunForever() {
+func (spy Spy) RunForever() {
 	for {
-		scraper.runOnce()
-		log.Printf("Waiting for %.0f seconds...", scraper.waitDuration.Seconds())
-		time.Sleep(scraper.waitDuration)
+		spy.runOnce()
+		log.Printf("Waiting for %.0f seconds...", spy.waitDuration.Seconds())
+		time.Sleep(spy.waitDuration)
 	}
 }
 
 // runOnce takes and stores snapshots of all the resources in the DB
-func (scraper Scraper) runOnce() {
+func (spy Spy) runOnce() {
 
 	// Get all resources from api service
-	resources, err := scraper.dbService.GetResources()
+	resources, err := spy.dbService.GetResources()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -38,7 +38,7 @@ func (scraper Scraper) runOnce() {
 	// For every resource, launch goroutine that scrapes and posts to snapshot service
 	for i := range resources {
 		wg.Add(1)
-		go scraper.handleResource(&resources[i])
+		go spy.inspectResource(&resources[i])
 	}
 	wg.Wait()
 
@@ -51,8 +51,9 @@ func (scraper Scraper) runOnce() {
 	//    since a slice is already a pointer to an underlying array
 }
 
-// HandleResource stores a new snapshot of a resource, and verifies if the resource has changed
-func (scraper Scraper) handleResource(resource *Resource) (err error) {
+// inspectResource sends a GET request to the URL of the resource, stores the body in
+// the DB, and sends a notification e-mail if anything has changed
+func (spy Spy) inspectResource(resource *Resource) (err error) {
 	defer wg.Done()
 
 	// Make new snapshot
@@ -63,14 +64,14 @@ func (scraper Scraper) handleResource(resource *Resource) (err error) {
 	}
 
 	// Post snapshot to API
-	err = scraper.dbService.PostSnapshot(resource, snapshot)
+	err = spy.dbService.PostSnapshot(resource, snapshot)
 	if err != nil {
 		log.Println(err)
 	}
 
 	// Send notification e-mail if resource has changed
 	if resource.HasChanged(snapshot) {
-		err = scraper.emailService.SendEmailResourceChanged(resource)
+		err = spy.emailService.SendEmailResourceChanged(resource)
 		if err != nil {
 			log.Printf(
 				`Resource with URL "%s" has changed, but received error while sending email to "%s": %s`,

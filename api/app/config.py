@@ -10,7 +10,7 @@ class Config(BaseSettings):
     mongo_db_password: str = "mongodb"
 
     # MongoDB database names
-    database_name = "urlstalker"
+    database_name = "urlspy"
     resources_collection_name = "resources"
     snapshots_collection_name = "snapshots"
 
