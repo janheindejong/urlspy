@@ -8,13 +8,13 @@ App to scrape URLs at regular interval
 
 This application uses the following tools & techniques: 
 
-- Docker, Docker Compose & Docker Secrets
-- VSCode, including advanced features like auto-formatting, auto-sorting, and development containers 
-- Python
-- Go
-- MongoDB
-- FastAPI 
-- Dependency management in Python using `poetry`
+- Micro-services architecture with **Docker**, **Docker Compose** & **Docker Secrets**
+- Optimized and controllable development environment using **Visual Studio Code devcontainers** 
+- Persistent storage using **MongoDB**
+- A REST API for the database using **Python** and **FastAPI** 
+- A scraper, built in **Go**
+- E-mail functionality, using **SMTP**, and Go's **`net/smtp`** package
+- Dependency management for Python with **Poetry**
 
 ## Architecture 
 
@@ -25,11 +25,10 @@ The app consists of two parts:
 
 ![Architecture](docs/architecture.svg)
 
-Initially, I envisioned a setup with both an SQL DB, and a MongoDB. THat was a bit overkill, so now the app has one database within a MongoDB (`urlstalker`), which has two collections: 
+Initially, I envisioned a setup with both an SQL DB, and a MongoDB. THat was a bit overkill, so now the app has one database within a MongoDB - **`urlstalker`** - with two collections: 
 
-- `resources` - contains resources that need to be tracked, including metadata and latest snapshot
-- `snapshots` - contains full list of all snapshots, including link to resource id
-
+- **`resources`** - contains resources that need to be tracked, including metadata and latest snapshot
+- **`snapshots`** - contains full list of all snapshots, including link to resource id
 
 The resource model has the following format: 
 
@@ -58,7 +57,7 @@ Snapshots have the following shape:
 
 For the development, I wanted to experiment with the use of VSCode's development containers. If you have the plugin enabled in VSCode, and have Docker running on your machine, VSCode should automatically launch in the development container for the application you want to work on. Next to the development container, it also starts containers for all the other apps in the stack. 
 
-The setup is such that if you open any of the application folders (i.e. `./resources`, `./snapshots`, or `./scraper`), it spins up a `<appname>-dev` container with all the right tooling, and mounts the working directory. Additionally, it launches (or re-uses already running) services from the stack it needs (e.g. the database). Pretty neat. 
+The setup is such that if you open any of the application folders (i.e. `./api` or `./scraper`), it spins up a development container named `<appname>-dev` with all the right tooling, and mounts the full project to `/workspace` in the container. Additionally, it launches (or re-uses already running) services from the stack it needs (e.g. the database). Pretty neat. 
 
 For more reading on why development containers are promising, read [this](https://www.infoq.com/articles/devcontainers/). 
 
@@ -67,24 +66,22 @@ For more reading on why development containers are promising, read [this](https:
 Currently, I'm using SMTP for connection to gmail. To be able to connect to Gmail, I've had to enable 2FA on the account, and create an app password. In future, I might want to use the Gmail REST-API. For now, the account name and app password are stored in files pointed to by the docker compose files: 
 
 * Development enviroment: 
-    - Email account: ./secrets/email_account.txt 
-    - Email password: ./secrects/email_password.txt 
+    - Email account: `./secrets/email_account.txt` 
+    - Email password: `./secrects/email_password.txt` 
 * For production environment 
-    - Email account: /opt/urlstalker/email_account.txt 
-    - Email password: /opt/urlstalker/email_password.txt 
+    - Email account: `/opt/urlstalker/email_account.txt`
+    - Email password: `/opt/urlstalker/email_password.txt` 
 
 ## To do
 
-- [x] Create Snapshot app 
 - [x] Create docker compose file for deployment 
-- [x] Add persistent storage to snapshot app 
 - [x] Add Scraper app 
 - [x] Add storing functionality to scraper app 
 - [x] Improve devcontainer workflow to allow to work on multiple parts at same time
-- [X] Add Debug configurations for VSCode
-- [x] Add read end-points to snapshot app
+- [x] Add debug configurations for VSCode
+- [x] Add e-mail functionality  
 - [ ] Improve Go project structure; read [here](https://tutorialedge.net/golang/go-project-structure-best-practices/)
-- [ ] Add delete endpoint
+- [ ] Add DELETE endpoint to database API
 - [ ] Unittests (yes, I've been a bad boi)
-- [ ] Add e-mail functionality  
 - [ ] Add deployment pipeline 
+- [ ] Add user-defineable tags to user stories, to make nicer e-mail subjects
