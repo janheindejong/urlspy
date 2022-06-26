@@ -24,12 +24,12 @@ func (s EmailServiceSmtp) auth() smtp.Auth {
 
 func (s EmailServiceSmtp) generateMessage(resource *Resource) []byte {
 	msg := []byte(
-		fmt.Sprintf("To: %s\r\n"+
-			"Subject: URL changed!\r\n"+
-			"\r\n"+
-			"Hi!\r\n"+
-			"\r\n"+
-			"The following resource has changed: \r\n"+
-			"%s", resource.Email, resource.Url))
+		fmt.Sprintf(`To: %s\r\n`+
+			`Subject: URL changed!\r\n`+
+			`\r\n`+
+			`Hi!\r\n`+
+			`\r\n`+
+			`The following resource has changed: \r\n`+
+			`%s`, resource.Email, resource.Url))
 	return msg
 }
