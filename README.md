@@ -1,10 +1,12 @@
-# URL Spy 
+![spy](docs/spy.png)
 
-![spy](docs/spy_small.png)
+# URL Spy 
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-URL Spy is an app that allows you to scrape multiple URLs at a regular interval, store the results, and receive e-mail notifications if something changes. 
+_URL Spy is an app that allows you to scrape multiple URLs at a regular interval, store the results, and receive e-mail notifications if something changes._
+
+
 
 ## Tools & techniques
 
