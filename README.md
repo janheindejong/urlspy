@@ -1,8 +1,20 @@
-# URLStalker 
+# URL Stalker 
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 App to scrape URLs at regular interval
+
+## Tools & techniques
+
+This application uses the following tools & techniques: 
+
+- Docker, Docker Compose & Docker Secrets
+- VSCode, including advanced features like auto-formatting, auto-sorting, and development containers 
+- Python
+- Go
+- MongoDB
+- FastAPI 
+- Dependency management in Python using `poetry`
 
 ## Architecture 
 
@@ -50,22 +62,16 @@ The setup is such that if you open any of the application folders (i.e. `./resou
 
 For more reading on why development containers are promising, read [this](https://www.infoq.com/articles/devcontainers/). 
 
-
-## Techniques
-
-This application uses the following techniques: 
-
-- Docker and Docker compose 
-- Advanced VSCode features like auto-formatting, auto-sorting, and development containers 
-- Python and Go
-- MongoDB  
-- Concurrent programming using Go-routines in Go
-- FastAPI 
-- Dependency management in Python using `poetry`
-
 ## Connecting to Gmail 
 
-Currently, I'm using SMPT for connection to gmail. To be able to connect to gmail, I've had to enable 2FA on the account, and create an app password. In future, I might want to use the Gmail REST-API. 
+Currently, I'm using SMTP for connection to gmail. To be able to connect to Gmail, I've had to enable 2FA on the account, and create an app password. In future, I might want to use the Gmail REST-API. For now, the account name and app password are stored in files pointed to by the docker compose files: 
+
+* Development enviroment: 
+    - Email account: ./secrets/email_account.txt 
+    - Email password: ./secrects/email_password.txt 
+* For production environment 
+    - Email account: /opt/urlstalker/email_account.txt 
+    - Email password: /opt/urlstalker/email_password.txt 
 
 ## To do
 
