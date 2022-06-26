@@ -85,3 +85,5 @@ Currently, I'm using SMTP for connection to gmail. To be able to connect to Gmai
 - [ ] Unittests (yes, I've been a bad boi)
 - [ ] Add deployment pipeline 
 - [ ] Add user-defineable tags to user stories, to make nicer e-mail subjects
+- [ ] Add redirect to `/docs` for database API 
+- [ ] Add more metadate to resource, e.g. number of snapshots
