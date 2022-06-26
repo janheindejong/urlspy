@@ -21,7 +21,7 @@ type Scraper struct {
 func (scraper Scraper) RunForever() {
 	for {
 		scraper.runOnce()
-		log.Println("Waiting")
+		log.Printf("Waiting for %.0f seconds...", scraper.waitDuration.Seconds())
 		time.Sleep(scraper.waitDuration)
 	}
 }
