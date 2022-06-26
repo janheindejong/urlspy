@@ -5,8 +5,8 @@ func main() {
 	config := LoadConfigFromEnv()
 	dbService := DbService{host: config.ApiHost}
 	emailService := EmailServiceSmtp{
-		host:    "smtp.gmail.com",
-		port:    587,
+		host:    config.EmailHost,
+		port:    config.EmailPort,
 		account: config.EmailAccount,
 		pass:    config.EmailPassword,
 	}
