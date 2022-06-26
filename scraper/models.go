@@ -50,5 +50,5 @@ func (resource Resource) Snap() (*Snapshot, error) {
 }
 
 func (resource Resource) HasChanged(snapshot *Snapshot) bool {
-	return snapshot.Body == resource.LatestSnapshot.Body
+	return snapshot.Body != resource.LatestSnapshot.Body
 }

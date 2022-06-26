@@ -63,6 +63,10 @@ This application uses the following techniques:
 - FastAPI 
 - Dependency management in Python using `poetry`
 
+## Connecting to Gmail 
+
+Currently, I'm using SMPT for connection to gmail. To be able to connect to gmail, I've had to enable 2FA on the account, and create an app password. In future, I might want to use the Gmail REST-API. 
+
 ## To do
 
 - [x] Create Snapshot app 

@@ -18,3 +18,4 @@ services:
     environment:
       - APP_API_URL=http://api
       - APP_WAIT_DURATION=5s
+      - APP_SECRET_DIR=secret

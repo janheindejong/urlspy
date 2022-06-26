@@ -6,12 +6,14 @@ import (
 	"time"
 )
 
+// wg is used to ensure all resources have been handled before starting a new loop
 var wg sync.WaitGroup
 
 // Scraper is responsible for the business logic of the application -
 // i.e. periodically taking snapshots from all resources in the DB
 type Scraper struct {
 	apiService   *ApiService
+	emailService *EmailServiceSmtp
 	waitDuration time.Duration
 }
 
@@ -66,11 +68,19 @@ func (scraper Scraper) handleResource(resource *Resource) (err error) {
 		log.Println(err)
 	}
 
-	// Compare to see if anything has changed
+	// Send notification e-mail if resource has changed
 	if resource.HasChanged(snapshot) {
-		log.Printf(`Body for url "%s" has not changed`, resource.Url)
+		err = scraper.emailService.SendEmailResourceChanged(resource)
+		if err != nil {
+			log.Printf(
+				`Resource with URL "%s" has changed, but received error while sending email to "%s": %s`,
+				resource.Url, resource.Email, err,
+			)
+		} else {
+			log.Printf(`Sent email to "%s", notifying of change in URL: "%s"`, resource.Email, resource.Url)
+		}
 	} else {
-		log.Printf(`Body for url "%s" has changed`, resource.Url)
+		log.Printf(`Body for url "%s" has not changed`, resource.Url)
 	}
 
 	return
