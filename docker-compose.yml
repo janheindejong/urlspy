@@ -61,6 +61,8 @@ services:
       - APP_WAIT_DURATION=24h
       - APP_EMAIL_ACCOUNT_FILE=/run/secrets/email_account
       - APP_EMAIL_PASSWORD_FILE=/run/secrets/email_password
+      - APP_EMAIL_HOST=stmp.gmail.com
+      - APP_EMAIL_PORT=587
     secrets: 
       - email_account
       - email_password

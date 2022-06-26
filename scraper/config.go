@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -11,14 +12,18 @@ type Config struct {
 	ApiHost       string
 	SnapShotApi   string
 	WaitDuration  time.Duration
+	EmailHost     string
+	EmailPort     int
 	EmailAccount  string
 	EmailPassword string
 }
 
 func LoadConfigFromEnv() *Config {
 	config := Config{
-		ApiHost:       getApiHost(),
+		ApiHost:       getenv("APP_API_URL"),
 		WaitDuration:  getWaitDuration(),
+		EmailHost:     getenv("APP_EMAIL_HOST"),
+		EmailPort:     getEmailPort(),
 		EmailAccount:  getEmailAcount(),
 		EmailPassword: getEmailPassword(),
 	}
@@ -26,16 +31,8 @@ func LoadConfigFromEnv() *Config {
 	return &config
 }
 
-func getApiHost() string {
-	s := os.Getenv("APP_API_URL")
-	if s == "" {
-		log.Fatal(`Environment variable "APP_API_URL" not set`)
-	}
-	return s
-}
-
 func getWaitDuration() time.Duration {
-	s := os.Getenv("APP_WAIT_DURATION")
+	s := getenv("APP_WAIT_DURATION")
 	duration, err := time.ParseDuration(s)
 	if err != nil {
 		log.Fatalf(`Couldn't parse environment variable APP_WAIT_DURATION "%s"`, s)
@@ -44,13 +41,30 @@ func getWaitDuration() time.Duration {
 }
 
 func getEmailAcount() string {
-	filename := os.Getenv("APP_EMAIL_ACCOUNT_FILE")
+	filename := getenv("APP_EMAIL_ACCOUNT_FILE")
 	return readSecret(filename)
 }
 
 func getEmailPassword() string {
-	filename := os.Getenv("APP_EMAIL_PASSWORD_FILE")
+	filename := getenv("APP_EMAIL_PASSWORD_FILE")
 	return readSecret(filename)
+}
+
+func getEmailPort() int {
+	s := getenv("APP_EMAIL_PORT")
+	port, err := strconv.Atoi(s)
+	if err != nil {
+		log.Fatalf("Couldn't parse port %s", s)
+	}
+	return port
+}
+
+func getenv(name string) string {
+	value := os.Getenv(name)
+	if value == "" {
+		log.Fatalf("Environment variable %s not set", name)
+	}
+	return value
 }
 
 func readSecret(filename string) string {
