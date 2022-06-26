@@ -1,8 +1,10 @@
-# URL Stalker 
+# URL Spy 
+
+![spy](docs/spy_small.png)
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-App to scrape URLs at regular interval
+URL Spy is an app that allows you to scrape multiple URLs at a regular interval, store the results, and receive e-mail notifications if something changes. 
 
 ## Tools & techniques
 
@@ -36,7 +38,7 @@ The resource model has the following format:
 {
     "_id": 123456789,
     "url": "https://example.com", 
-    "email": "john@doe.com", 
+    "email": "john@doe.com", // E-mail address to receive notifications of changes, optional
     "latest_snapshot": null  // One snapshot, optional
 } 
 ```
